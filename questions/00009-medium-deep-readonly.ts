@@ -1,23 +1,24 @@
-// この型を定義してください
-type DeepPick<T, U> = {
-    [K in keyof U]: K extends keyof  T ? U[K] extends true ? T[K] : DeepPick<T[K], U[K]> : never;
+// https://github.com/type-challenges/type-challenges/tree/main/questions/00009-medium-deep-readonly
+
+// この型を実装してください
+type DeepReadonly<T> = {
+    readonly [P in keyof T]: T[P] extends true ? T[P] : DeepReadonly<T[P]>;
 }
 
-type Person = {
-    name: string;
-    age: number;
-    address: {
-        country: string;
-        houseNumber: number;
-    };
-};
-
-type Result = DeepPick<
-    Person,
-    {
-        name: true;
-        address: {
-            country: true;
-        };
+type X = {
+    x: {
+        a: 1
+        b: 'hi'
     }
->;
+    y: 'hey'
+}
+
+type Expected = {
+    readonly x: {
+        readonly a: 1
+        readonly b: 'hi'
+    }
+    readonly y: 'hey'
+}
+
+type Todo = DeepReadonly<X> // should be same as `Expected`
