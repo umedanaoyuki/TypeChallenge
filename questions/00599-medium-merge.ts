@@ -13,7 +13,7 @@ type coo = {
 };
 
 type Merge<T, K> = {
-    [P in keyof T | keyof K]: P extends keyof T ? T[P] : P extends keyof K ? K[P] : never
+    [P in keyof T | keyof K]: P extends keyof K ? K[P] : P extends keyof T ? T[P] : never
 }
 
 type Result = Merge<foo, coo>;
